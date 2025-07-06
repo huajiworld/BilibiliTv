@@ -29,14 +29,14 @@ class CustomGridViewPresenter(
     /**
      * 改为自定义grid view
      */
-    override fun createGridViewHolder(parent: ViewGroup?): ViewHolder {
+    override fun createGridViewHolder(parent: ViewGroup): ViewHolder {
         gridView = LayoutInflater.from(parent!!.context)
             .inflate(R.layout.custom_lb_grid_view_layout, parent, false) as CustomGridView
         gridView!!.interceptorFocusSearch = interceptorFocusSearch
         gridView!!.setOnKeyInterceptListener { keyEvent ->
             keyEventInterceptor(keyEvent, gridView!!)
         }
-        return ViewHolder(gridView)
+        return ViewHolder(gridView!!)
     }
 
     /**

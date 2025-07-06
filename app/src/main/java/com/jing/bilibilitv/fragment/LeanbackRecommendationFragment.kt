@@ -54,7 +54,7 @@ class LeanbackRecommendationFragment(private val getSelectTabView: () -> View? =
         super.onCreate(savedInstanceState)
         mAdapter = ArrayObjectAdapter(VideoCardPresenter())
         val columnsCount = 4
-        gridPresenter = CustomGridViewPresenter(
+        val presenter = CustomGridViewPresenter(
             focusZoomFactor = FocusHighlight.ZOOM_FACTOR_NONE,
             useFocusDimmer = false,
             interceptorFocusSearch = { direction, position, focused ->
@@ -83,6 +83,7 @@ class LeanbackRecommendationFragment(private val getSelectTabView: () -> View? =
                 }
             }
         }
+        setGridPresenter(presenter)
     }
 
     override fun onCreateView(
@@ -118,7 +119,7 @@ class LeanbackRecommendationFragment(private val getSelectTabView: () -> View? =
 
 
     private class VideoCardPresenter : Presenter() {
-        override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
             val vb =
                 VideoCardLbLayoutBinding.inflate(
                     LayoutInflater.from(parent!!.context),
@@ -129,7 +130,7 @@ class LeanbackRecommendationFragment(private val getSelectTabView: () -> View? =
             return ViewHolder(vb.root)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolder?, item: Any?) {
+        override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
             val video = item as VideoInfo
             with(viewHolder!!.view.tag as VideoCardLbLayoutBinding) {
                 title.text = video.title
@@ -169,7 +170,7 @@ class LeanbackRecommendationFragment(private val getSelectTabView: () -> View? =
         }
 
 
-        override fun onUnbindViewHolder(viewHolder: ViewHolder?) {
+        override fun onUnbindViewHolder(viewHolder: ViewHolder) {
         }
 
     }

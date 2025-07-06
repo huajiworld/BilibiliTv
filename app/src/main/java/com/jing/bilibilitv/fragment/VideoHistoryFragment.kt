@@ -86,7 +86,7 @@ class VideoHistoryFragment(private val getTopTabView: () -> View? = { null }) :
                 }
                 numberOfColumns = columnsCount
             }
-        gridPresenter = mGridPresenter
+        setGridPresenter(mGridPresenter)
         adapter = pagingAdapter
         progressBarManager.enableProgressBar()
         progressBarManager.initialDelay = 0
@@ -131,7 +131,7 @@ class VideoHistoryFragment(private val getTopTabView: () -> View? = { null }) :
     }
 
     private class VideoHistoryPresenter : Presenter() {
-        override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
             val viewBinding = HistoryCardLbLayoutBinding.inflate(
                 LayoutInflater.from(parent!!.context),
                 parent,
@@ -140,7 +140,7 @@ class VideoHistoryFragment(private val getTopTabView: () -> View? = { null }) :
             return HistoryViewHolder(viewBinding)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolder?, item: Any?) {
+        override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
             val viewBinding = (viewHolder as HistoryViewHolder).viewBinding
             val historyItem = item as HistoryItem
             with(viewBinding) {
@@ -171,7 +171,7 @@ class VideoHistoryFragment(private val getTopTabView: () -> View? = { null }) :
             }
         }
 
-        override fun onUnbindViewHolder(viewHolder: ViewHolder?) {
+        override fun onUnbindViewHolder(viewHolder: ViewHolder) {
         }
 
     }

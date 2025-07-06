@@ -26,7 +26,6 @@ import androidx.leanback.widget.Action
 import androidx.leanback.widget.ArrayObjectAdapter
 import androidx.leanback.widget.PlaybackControlsRow.FastForwardAction
 import androidx.leanback.widget.PlaybackControlsRow.RewindAction
-import com.google.android.exoplayer2.ext.leanback.LeanbackPlayerAdapter
 import java.util.concurrent.TimeUnit
 
 /**
@@ -126,8 +125,8 @@ class ProgressTransportControlGlue<T : PlayerAdapter>(
     }
 
     fun notifyActionIconChange(action: Action) {
-        notifyItemChanged(controlsRow.primaryActionsAdapter as ArrayObjectAdapter, action)
-        notifyItemChanged(controlsRow.secondaryActionsAdapter as ArrayObjectAdapter, action)
+        notifyItemChanged(controlsRow!!.primaryActionsAdapter as ArrayObjectAdapter, action)
+        notifyItemChanged(controlsRow!!.secondaryActionsAdapter as ArrayObjectAdapter, action)
     }
 
     override fun onKey(v: View?, keyCode: Int, event: KeyEvent): Boolean {

@@ -12,13 +12,14 @@ import androidx.leanback.app.VideoSupportFragmentGlueHost
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.PlaybackException
-import com.google.android.exoplayer2.Player
-import com.google.android.exoplayer2.ext.leanback.LeanbackPlayerAdapter
-import com.google.android.exoplayer2.source.DefaultMediaSourceFactory
-import com.google.android.exoplayer2.upstream.DefaultHttpDataSource
+import androidx.media3.common.MediaItem
+import androidx.media3.common.PlaybackException
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.DefaultMediaSourceFactory
+import androidx.media3.ui.leanback.LeanbackPlayerAdapter
 import com.jing.bilibilitv.BuildConfig
 import com.jing.bilibilitv.ext.showLongToast
 import com.jing.bilibilitv.http.data.LiveStreamUrlDurl
@@ -36,6 +37,7 @@ import master.flame.danmaku.danmaku.model.android.Danmakus
 import master.flame.danmaku.danmaku.parser.BaseDanmakuParser
 import master.flame.danmaku.ui.widget.DanmakuView
 
+@UnstableApi
 class LiveRoomPlaybackFragment(
     private val viewModel: LiveRoomPlaybackViewModel
 ) :

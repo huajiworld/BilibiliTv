@@ -17,14 +17,16 @@ import androidx.leanback.widget.Action
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.media3.common.MediaItem
+import androidx.media3.common.Player
+import androidx.media3.common.util.UnstableApi
+import androidx.media3.datasource.DefaultHttpDataSource
+import androidx.media3.exoplayer.ExoPlayer
+import androidx.media3.exoplayer.source.MergingMediaSource
+import androidx.media3.exoplayer.source.ProgressiveMediaSource
+import androidx.media3.ui.leanback.LeanbackPlayerAdapter
 import coil.ImageLoader
-import com.google.android.exoplayer2.ExoPlayer
-import com.google.android.exoplayer2.MediaItem
-import com.google.android.exoplayer2.Player.Listener
-import com.google.android.exoplayer2.ext.leanback.LeanbackPlayerAdapter
-import com.google.android.exoplayer2.ext.okhttp.OkHttpDataSource
-import com.google.android.exoplayer2.source.MergingMediaSource
-import com.google.android.exoplayer2.source.ProgressiveMediaSource
+import com.google.common.net.HttpHeaders
 import com.jing.bilibilitv.BuildConfig
 import com.jing.bilibilitv.danmaku.VideoDanmakuParser
 import com.jing.bilibilitv.danmaku.proto.DanmakuProto
@@ -46,6 +48,7 @@ import master.flame.danmaku.danmaku.model.android.DanmakuContext
 import master.flame.danmaku.ui.widget.DanmakuView
 import okhttp3.OkHttpClient
 
+@UnstableApi
 class LbVideoPlaybackFragment(
     private val avid: String?,
     private val bvid: String?,
@@ -58,7 +61,6 @@ class LbVideoPlaybackFragment(
 
     private lateinit var playerDelegate: VideoPlayerDelegate
 
-    private val exoPlayerDataSourceFactory = OkHttpDataSource.Factory { okHttpClient.newCall(it) }
 
     private var exoPlayer: ExoPlayer? = null
 
@@ -215,7 +217,12 @@ class LbVideoPlaybackFragment(
     }
 
     private fun buildMediaSourceAndPlay(videoAndAudio: VideoUrlAndQuality, seekTo: Long = -1) {
-        val factory = ProgressiveMediaSource.Factory(exoPlayerDataSourceFactory)
+        val factory = ProgressiveMediaSource.Factory(DefaultHttpDataSource.Factory().apply {
+            setDefaultRequestProperties(mapOf(
+                HttpHeaders.USER_AGENT to "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/105.0.0.0 Safari/537.36",
+                HttpHeaders.REFERER to "https://www.bilibili.com"
+            ))
+        })
         val urlList = mutableListOf(videoAndAudio.videoUrl)
         videoAndAudio.audioUrl?.let { urlList.add(it) }
         val sources =
@@ -233,7 +240,7 @@ class LbVideoPlaybackFragment(
         Log.d(TAG, "initPlayer")
         exoPlayer = ExoPlayer.Builder(requireContext()).build().apply {
             prepareGlue(this)
-            this.addListener(object : Listener {
+            this.addListener(object : Player.Listener {
                 override fun onIsPlayingChanged(isPlaying: Boolean) {
                     if (isPlaying) {
                         playerDelegate.play()

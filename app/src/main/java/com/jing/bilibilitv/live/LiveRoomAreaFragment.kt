@@ -79,13 +79,13 @@ class LiveRoomAreaFragment(
     }
 
     private inner class SubAreaPresenter : Presenter() {
-        override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
             val vb = LiveSubAreaLayoutBinding.inflate(LayoutInflater.from(parent!!.context))
             vb.root.tag = vb
             return ViewHolder(vb.root)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolder?, item: Any?) {
+        override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
             val area = item as LiveRoomSubArea
             with(viewHolder!!.view.tag as LiveSubAreaLayoutBinding) {
                 areaImage.load(area.pic)
@@ -93,7 +93,7 @@ class LiveRoomAreaFragment(
             }
         }
 
-        override fun onUnbindViewHolder(viewHolder: ViewHolder?) {
+        override fun onUnbindViewHolder(viewHolder: ViewHolder) {
         }
 
     }

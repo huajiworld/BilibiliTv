@@ -98,7 +98,7 @@ class LeanbackDynamicFragment(private val getSelectTabView: () -> View? = { null
                     }
                 }
             }
-        gridPresenter = mGridPresenter
+        setGridPresenter(mGridPresenter)
         progressBarManager.enableProgressBar()
         progressBarManager.initialDelay = 0
     }
@@ -147,7 +147,7 @@ class LeanbackDynamicFragment(private val getSelectTabView: () -> View? = { null
     }
 
     private class DynamicItemPresenter : Presenter() {
-        override fun onCreateViewHolder(parent: ViewGroup?): ViewHolder {
+        override fun onCreateViewHolder(parent: ViewGroup): ViewHolder {
             val viewBinding = VideoCardLbLayoutBinding.inflate(
                 LayoutInflater.from(parent!!.context),
                 parent,
@@ -156,7 +156,7 @@ class LeanbackDynamicFragment(private val getSelectTabView: () -> View? = { null
             return DynamicViewHolder(viewBinding)
         }
 
-        override fun onBindViewHolder(viewHolder: ViewHolder?, item: Any?) {
+        override fun onBindViewHolder(viewHolder: ViewHolder, item: Any?) {
             val viewBinding = (viewHolder as DynamicViewHolder).viewBinding
             val dynamic = item as DynamicItem
             val archive = dynamic.modules.moduleDynamic.major!!.archive!!
@@ -191,7 +191,7 @@ class LeanbackDynamicFragment(private val getSelectTabView: () -> View? = { null
             }
         }
 
-        override fun onUnbindViewHolder(viewHolder: ViewHolder?) {
+        override fun onUnbindViewHolder(viewHolder: ViewHolder) {
         }
 
     }
